@@ -59,12 +59,15 @@
           <div>Giúp</div>
         </button>
       </div>
+      <Delete :ishideForDeleteChild="ishideForDelete" :infoDeleteChild="infoDelete" v-on:ishideDeleteParent="changeIsHideDeleteToClose"/>
       <EmployeeDetail
         :ishide="ishideForAdd"
+        :isdisable="isDisableForUpdate"
         :addOrupdateChild="addOrUpdateString"
         :infoUpdateOrAddChild="infoUpdateOrAdd"
         v-on:ishideToParent="changeIsHideToClose"
         @addNewEmployee="toAddNewEmployee"
+        ref="input"
       />
       <table class="table-employee" cellpadding="6" cellspacing="0">
         <thead>
@@ -120,7 +123,7 @@
           <tr
             @click="activeRow(index)"
             class="row-onfocus"
-            
+            :class="{isActive: !isActiveRow}"
             v-for="(employee, index) in employees"
             :key="index"
             @dblclick="rowOnClick(employee)"
@@ -176,21 +179,35 @@
 import EmployeeDetail from "./EmployeeDetail";
 import axios from "axios";
 import moment from "moment";
+import Delete from './CheckToClose';
 
 export default {
   components: {
     EmployeeDetail,
+    Delete
   },
+  // mounted(){
+  //   this.forsucInput()
+  // },
   methods: {
     btnAddOnClick() {
       this.ishideForAdd = false;
+      this.isDisableForUpdate = true;
       this.infoUpdateOrAdd = this.employee;
       this.addOrUpdateString = "Add";
 
-      // document.getElementById("input-employeeCode").focus();
+      // this.$nextTick(()=>{
+      //   this.forsucInput();
+      // });
     },
+    // forsucInput(){
+    //   this.$refs.input.$el.focus();
+    // },
     changeIsHideToClose(value) {
       this.ishideForAdd = value;
+    },
+    changeIsHideDeleteToClose(value) {
+      this.ishideForDelete = value;
     },
     activeRow(index) {
       this.isActiveRow = true;
@@ -201,14 +218,15 @@ export default {
       return moment(String(date)).format("DD/MM/YYYY");
     },
 
-    async removeOnClick(employee) {
-      await axios({
-        method: "DELETE",
-        url: `https://localhost:44306/api/v1/Employees/${employee.employeeID}`,
-      })
-        .then((res) => console.log(res.status))
-        .catch((e) => console.log(e));
-      location.reload();
+    removeOnClick(employee) {
+      if (employee == null) {
+        alert("Bạn chưa chọn đối tượng cần xóa");
+      } else {
+        this.ishideForDelete = false;
+        this.infoDelete = employee;
+      }
+      
+      
     },
 
     rowOnClick(employee) {
@@ -216,6 +234,7 @@ export default {
         alert("Bạn chưa chọn đối tượng cần chỉnh sửa");
       } else {
         this.ishideForAdd = false;
+        this.isDisableForUpdate = false;
         this.infoUpdateOrAdd = employee;
         this.addOrUpdateString = "Update";
       }
@@ -259,7 +278,10 @@ export default {
         modifiedDate: null,
       },
       infoUpdateOrAdd: Object,
+      infoDelete: Object,
+      ishideForDelete: true,
       ishideForAdd: true,
+      isDisableForUpdate: true,
       isActiveRow: Boolean,
       indexForAction: Number,
       addOrUpdateString: String,

@@ -29,7 +29,7 @@
               <div class="m-btn-icon icon-update"></div>
               <div>Sửa</div>
             </button>
-            <button>
+            <button @click="btnAddOnClick()">
               <div class="btnadd-icon"></div>
               <div>Cất</div>
             </button>
@@ -41,7 +41,7 @@
               <div class="btnadd-icon"></div>
               <div>Hoãn</div>
             </button>
-            <button>
+            <button @click="focusInputTest()">
               <div class="btnadd-icon"></div>
               <div>Giúp</div>
             </button>
@@ -55,7 +55,7 @@
               <div class="m-btn-icon icon-add"></div>
               <div>Thêm</div>
             </button>
-            <button>
+            <button @click="btnAddOnClick()">
               <div class="m-btn-icon icon-update"></div>
               <div>Sửa</div>
             </button>
@@ -90,13 +90,17 @@
                 <tr>
                   <td>Mã nhân viên <span class="input-require">(*)</span></td>
                   <td>
+                    <span class="warning-text"></span>
                     <input
-                      ref="ak"
+                    :disabled="!isdisable"
+                      ref="nameInput"
                       v-model="newEmployee.employeeCode"
                       class="form-input"
+                      :class="{isWarning: isWarning}"
                       type="text"
                       id="input-employeeCode"
                     />
+                    <span></span>
                   </td>
                   <td colspan="3">
                     <div class="noteforUser">
@@ -135,9 +139,11 @@
                 <tr>
                   <td>Tên nhân viên <span class="input-require">(*)</span></td>
                   <td colspan="4">
+                    <span class="warning-text"></span>
                     <input
                       v-model="newEmployee.fullName"
                       class="form-input"
+                      :class="{isWarning: isWarning}"
                       type="text"
                     />
                   </td>
@@ -207,11 +213,12 @@
                 <tr>
                   <td>Phân quyền <span class="input-require">(*)</span></td>
                   <td colspan="1">
-                    <input v-model="newEmployee.ruleCode" value="0" type="checkbox" :checked="1"/>Vai trò
+                    <span class="warning-text"></span>
+                    <input v-model="newEmployee.ruleCode" :value="0" type="checkbox" :checked="0"/>Vai trò
                     quản trị hệ thống
                   </td>
                   <td colspan="2">
-                    <input v-model="newEmployee.ruleCode" value="1" type="checkbox" :checked="1" />Vai trò quản lý
+                    <input v-model="newEmployee.ruleCode" :value="1" type="checkbox" :checked="1" />Vai trò quản lý
                     chuỗi
                   </td>
                 </tr>
@@ -222,9 +229,11 @@
                     Trạng thái làm việc <span class="input-require">(*)</span>
                   </td>
                   <td>
+                    <span class="warning-text"></span>
                     <select
                       v-model="newEmployee.statusWork"
                       class="form-input"
+                      :class="{isWarning: isWarning}"
                       name=""
                       id=""
                     >
@@ -244,13 +253,13 @@
                     Mật khẩu truy cập <span class="input-require">(*)</span>
                   </td>
                   <td>
-                    <input class="form-input" type="password" name="" id="" />
+                    <input class="form-input" :class="{isWarning: isWarning}" type="password" name="" id="" />
                   </td>
                   <td class="col-text-password">
                     Xác nhận mật khẩu <span class="input-require">(*)</span>
                   </td>
                   <td>
-                    <input class="form-input" type="password" name="" id="" />
+                    <input class="form-input" :class="{isWarning: isWarning}" type="password" name="" id="" />
                   </td>
                 </tr>
 
@@ -277,7 +286,7 @@
           </div>
         </div>
         <div class="dialog-footer">
-          <button
+          <!-- <button
             id="btnCancel"
             class="m-btn m-btn-default m-btn-cancel"
             v-on:click="btnCancelOnClick"
@@ -290,7 +299,7 @@
             class="m-btn m-btn-default"
           >
             <i class="far fa-save"></i><span class="btn-text">Lưu</span>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -300,45 +309,76 @@
 import axios from "axios";
 import moment from "moment";
 export default {
-  props: ["ishide", "infoUpdateOrAddChild", "addOrupdateChild"],
+  props: ["ishide","isdisable", "infoUpdateOrAddChild", "addOrupdateChild"],
+  // mounted: function () {
+  //   this.focusInputTest();
+  // },
   methods: {
+    //test focus input
+    focusInputTest() {
+      this.$refs.nameInput.focus();
+      this.$refs.nameInput.value = "NV0003";
+    },
+    // focusInput() {
+    //   this.$refs.email.$el.focus();
+    // },
+
+    // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
-      if (this.addOrupdateChild == "Add") {
-        axios({
-          method: "POST",
-          // url: "http://api.manhnv.net/api/employees",
-          url: "https://localhost:44306/api/v1/Employees",
-          data: this.newEmployee,
-        })
-          .then((res) => console.log(res.status))
-          .catch((e) => console.log(e));
-        location.reload();
-      } else if (this.addOrupdateChild == "Update") {
-        await axios
-          // .put("http://api.manhnv.net/api/employees", this.newEmployee)
-          .put(
-            `https://localhost:44306/api/v1/Employees/${this.newEmployee.employeeID}`,
-            this.newEmployee
-          )
-          .then((res) => console.log(res.status))
-          .catch((e) => console.log(e));
-        location.reload();
+      if(this.validateInputNotNull.errorMsg != ''){
+        this.isWarning = true;
+      }
+      else{
+        this.isWarning = false;
+        if (this.addOrupdateChild == "Add") {
+          axios({
+            method: "POST",
+            url: "https://localhost:44306/api/v1/Employees",
+            data: this.newEmployee,
+          })
+            .then((res) => console.log(res.status))
+            .catch((e) => console.log(e));
+          console.log(this.newEmployee);
+          // location.reload();
+        } else if (this.addOrupdateChild == "Update") {
+          await axios
+            .put(
+              `https://localhost:44306/api/v1/Employees/${this.newEmployee.employeeID}`,
+              this.newEmployee
+            )
+            .then((res) => console.log(res.status))
+            .catch((e) => console.log(e));
+          location.reload();
+        }
       }
     },
+    
+    
 
     btnCancelOnClick() {
       this.$emit("ishideToParent", true);
     },
+
+    //Định dạng lại ngày tháng hiển thị trên form
     formatDateDefalut(date) {
       return moment(String(date)).format("YYYY-MM-DD");
     },
-    // rowOnClick(employee) {
-    //   alert(employee.FullName);
-    // },
+   
   },
-  mounted() {
-    this.$refs.ak.focus(); // moves focus correctly on the first element (Volvo)
+
+  computed: {
+    //Kiểm tra bắt buộc nhập
+    validateInputNotNull(){
+      let errorMsg = '';
+      if(this.newEmployee.employeeCode == ""){
+        errorMsg = 'ban chua nhap ma nv';
+        return errorMsg;
+      }
+      return errorMsg;
+    }
   },
+  
+  //Cập nhật khi có bất kỳ thay đổi nào
   updated() {
     this.newEmployee = this.infoUpdateOrAddChild;
     this.newEmployee.dateOfBirth = this.formatDateDefalut(
@@ -347,12 +387,15 @@ export default {
     this.newEmployee.identityDate = this.formatDateDefalut(
       this.newEmployee.identityDate
     );
+    this.newEmployee.gender = parseInt(this.newEmployee.gender);
+    this.newEmployee.statusWork = parseInt(this.newEmployee.statusWork);
   },
   data() {
     return {
       newEmployee: Object,
       dialog: false,
       display: "none",
+      isWarning: false,
     };
   },
 };
@@ -552,5 +595,12 @@ export default {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.isWarning{
+  outline: 1px solid red;
+}
+.isDisable{
+  background-color: #0087be;
 }
 </style>
