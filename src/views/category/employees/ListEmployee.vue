@@ -59,7 +59,11 @@
           <div>Giúp</div>
         </button>
       </div>
-      <Delete :ishideForDeleteChild="ishideForDelete" :infoDeleteChild="infoDelete" v-on:ishideDeleteParent="changeIsHideDeleteToClose"/>
+      <Delete
+        :ishideForDeleteChild="ishideForDelete"
+        :infoDeleteChild="infoDelete"
+        v-on:ishideDeleteParent="changeIsHideDeleteToClose"
+      />
       <EmployeeDetail
         :ishide="ishideForAdd"
         :isdisable="isDisableForUpdate"
@@ -102,7 +106,11 @@
             </th>
             <th class="col-gender">
               <div>Giới tính</div>
-              <select name="gender" id="gender">
+              <select
+                name="gender"
+                id="gender"
+                @click="searchFor($event.target.value)"
+              >
                 <option value=""></option>
                 <option value="nam">nam</option>
                 <option value="nu">nữ</option>
@@ -121,9 +129,34 @@
         </thead>
         <tbody class="tbody-content">
           <tr
+            :class="{ isHide: ishideForSearch }"
+            v-for="(emp, index) in employeeSearch"
+            :key="index"
+            @dblclick="rowOnClick(employee)"
+          >
+            <td>
+              <div class="cell">{{ emp.employeeCode }}</div>
+            </td>
+            <td>
+              <div class="cell">{{ emp.fullName }}</div>
+            </td>
+            <td>
+              <div class="cell">{{ emp.phoneNumber }}</div>
+            </td>
+            <td>
+              <div class="cell">{{ emp.dateOfBirth }}</div>
+            </td>
+            <td>
+              <div class="cell">{{ emp.gender }}</div>
+            </td>
+            <td>
+              <div class="cell">{{ emp.statusWork }}</div>
+            </td>
+          </tr>
+          <tr
             @click="activeRow(index)"
             class="row-onfocus"
-            :class="{isActive: !isActiveRow}"
+            :class="{ isHide: !ishideForSearch }"
             v-for="(employee, index) in employees"
             :key="index"
             @dblclick="rowOnClick(employee)"
@@ -179,17 +212,18 @@
 import EmployeeDetail from "./EmployeeDetail";
 import axios from "axios";
 import moment from "moment";
-import Delete from './CheckToClose';
+import Delete from "./CheckToClose";
 
 export default {
   components: {
     EmployeeDetail,
-    Delete
+    Delete,
   },
   // mounted(){
   //   this.forsucInput()
   // },
   methods: {
+    //Hàm mở form detail để thực hiện thêm mới
     btnAddOnClick() {
       this.ishideForAdd = false;
       this.isDisableForUpdate = true;
@@ -203,21 +237,29 @@ export default {
     // forsucInput(){
     //   this.$refs.input.$el.focus();
     // },
+
+    //Hàm đóng form detail
     changeIsHideToClose(value) {
       this.ishideForAdd = value;
     },
+
+    //Hàm đóng popup delete
     changeIsHideDeleteToClose(value) {
       this.ishideForDelete = value;
     },
+
+    //Hàm chọn vị trí nhân viên trong bảng để thực hiện sửa và xóa
     activeRow(index) {
       this.isActiveRow = true;
       this.indexForAction = index;
     },
 
+    //Hàm format lại data hiển thị trên bảng
     formatDate(date) {
       return moment(String(date)).format("DD/MM/YYYY");
     },
 
+    //Hàm chọn để mở popup delete thực thi xóa nhân viên
     removeOnClick(employee) {
       if (employee == null) {
         alert("Bạn chưa chọn đối tượng cần xóa");
@@ -225,10 +267,9 @@ export default {
         this.ishideForDelete = false;
         this.infoDelete = employee;
       }
-      
-      
     },
 
+    //Hàm chọn nhân viên để thực thi update
     rowOnClick(employee) {
       if (employee == null) {
         alert("Bạn chưa chọn đối tượng cần chỉnh sửa");
@@ -239,6 +280,15 @@ export default {
         this.addOrUpdateString = "Update";
       }
     },
+
+    //Hàm thực hiện tìm kiếm theo gender và statusWork
+    // searchFor(value){
+    //   console.log(value);
+    //   this.employeeSearch = this.employees.filter((emp) =>
+    //       emp.gender = value);
+    //   this.ishideForSearch = false;
+    //   console.log(this.employeeSearch);
+    // },
   },
   data() {
     return {
@@ -285,6 +335,8 @@ export default {
       isActiveRow: Boolean,
       indexForAction: Number,
       addOrUpdateString: String,
+      ishideForSearch: true,
+      employeeSearch: Object,
     };
   },
   async created() {
@@ -297,316 +349,8 @@ export default {
 };
 </script>
 
-<style>
-.container {
-  /* margin-left: 240px; */
-  margin-top: 10px;
-  margin-right: 10px;
-  height: calc(100vh-50px);
-  font-size: 14px;
-}
-
-.header-content {
-  display: flex;
-}
-
-.header-content .header-content-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-content-left .title {
-  font-size: 22px;
-  font-weight: 600;
-  padding: 0 10px 0 0;
-  display: block;
-}
-
-.header-content-left .sub-title {
-  font-size: 18px;
-  color: #0087be;
-  padding: 0 10px 0 0;
-  display: block;
-}
-
-.header-content-left .filter-workstatus {
-  display: flex;
-  align-items: center;
-  align-self: center;
-}
-
-.header-content-left .filter-workstatus select {
-  padding: 0.3em;
-  border-radius: 2px;
-  cursor: pointer;
-  outline: none;
-  color: #000;
-  margin-left: 8px;
-  border: 1px solid #ccc;
-}
-
-.header-content-right {
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-}
-
-.header-content-right button {
-  padding: 0.3em;
-  margin-left: 5px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-.header-content-right button:focus,
-.filter-workstatus select:focus,
-.table-employee input:focus,
-.table-employee select:focus,
-.table-employee button:focus,
-.button-group-option button:focus {
-  outline: 1px solid #0087be;
-}
-.reply button {
-  display: flex;
-  align-self: center;
-  align-items: center;
-}
-
-.reply .reply-icon {
-  width: 15px;
-  height: 15px;
-  background-position: center;
-  background-image: url("../../../assets/Resource1/content/images/viewEmail.png");
-  background-repeat: no-repeat;
-  margin-right: 3px;
-}
-
-/*Table Content */
-.content-table {
-  width: 100%;
-  position: absolute;
-  margin-top: 20px;
-  height: calc(100vh - 150px);
-}
-
-.content-table .button-group-option {
-  padding: 2px;
-  border: 1px solid #ccc;
-  border-bottom: none;
-}
-.content-table .button-group-option button {
-  border: none;
-  background-color: #fff;
-  padding: 8px;
-  margin-right: 5px;
-}
-
-.table-employee {
-  width: 100%;
-  display: block;
-  height: calc(100% - 80px);
-  overflow-y: auto;
-  overflow-x: auto;
-  border-collapse: collapse;
-  border: 1px solid #ccc;
-}
-.isActive {
-  background-color: #ddd;
-}
-.row-onfocus {
-  cursor: pointer;
-}
-.row-onfocus:hover {
-  background-color: #ddd;
-}
-
-.filter-col {
-  display: flex;
-}
-.table-employee button {
-  left: 0;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-}
-.table-employee input,
-.table-employee select {
-  width: 90%;
-  padding: 4px 0 4px 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-}
-
-.table-employee th,
-.table-employee td {
-  border: 1px solid #ccc;
-}
-/* .table-employee th {
-  position: -webkit-sticky;
-  position: sticky;
-  top: -1px;
-  background-color: #ddd;
-  padding-bottom: 15px;
-} */
-
-.col-username {
-  width: 15%;
-}
-.col-fullname {
-  width: 32%;
-}
-.col-phonenumber {
-  width: 15%;
-}
-.col-dateofbirth {
-  width: 13%;
-}
-.col-gender {
-  width: 10%;
-}
-.col-workstatus {
-  width: 15%;
-}
-
-/* .table-employee .tbody-content {
-  height: 500px;
-  overflow-y: scroll;
-} */
-.button-group-option {
-  display: flex;
-  align-items: center;
-  height: 40px;
-}
-.button-group-option button {
-  display: flex;
-  align-items: center;
-  padding: 0 20px 0 0;
-
-  cursor: pointer;
-}
-.button-group-option button:hover {
-  border: 1px solid #0087be;
-}
-
-/*icon button */
-.icon-add {
-  width: 14px;
-  height: 14px;
-  background-image: url("../../../assets/Resource1/content/images/SaveAdd16.png");
-  padding-right: 4px;
-  background-repeat: no-repeat;
-}
-.icon-duplicate {
-  width: 14px;
-  height: 14px;
-  background-image: url("../../../assets/Resource1/content/images/Save16.png");
-  padding-right: 4px;
-  background-repeat: no-repeat;
-}
-.icon-update {
-  width: 16px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/Edit16.png");
-  padding-right: 3px;
-  background-repeat: no-repeat;
-}
-.icon-remove {
-  width: 15px;
-  height: 15px;
-  background-image: url("../../../assets/Resource1/content/images/Disable16.png");
-  padding-right: 3px;
-  background-repeat: no-repeat;
-}
-.icon-view {
-  width: 16px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/viewEmail.png");
-  padding-right: 3px;
-  background-repeat: no-repeat;
-}
-.icon-import {
-  width: 16px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/Import16.png");
-  padding-right: 3px;
-  background-repeat: no-repeat;
-}
-.icon-help {
-  width: 12px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1px solid steelblue;
-  background-image: url("../../../assets/Resource1/content/images/iconHelp.png");
-  padding-right: 3px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-/*end */
-
-/*Table Paging */
-.table-paging {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-top: none;
-  padding: 10px;
-}
-.table-paging .table-paging-left {
-  display: flex;
-  align-items: center;
-}
-.table-paging .table-paging-left div {
-  display: block;
-  padding: 0 20px 0 0;
-  cursor: pointer;
-}
-/* .table-paging .table-paging-left div:hover{
-  background-color: #ddd;
-  padding: 10px;
-} */
-.table-paging-left input {
-  width: 50px;
-  height: 20px;
-  margin-top: -1px;
-}
-.double-paging-left-icon {
-  width: 15px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/grid/page-first.png");
-  /* padding-right: 3px; */
-  background-repeat: no-repeat;
-}
-.double-paging-right-icon {
-  width: 15px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/grid/page-last.png");
-  /* padding-right: 3px; */
-  background-repeat: no-repeat;
-}
-.paging-left-icon {
-  width: 15px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/grid/page-prev.png");
-  /* padding-right: 3px; */
-  background-repeat: no-repeat;
-}
-.paging-right-icon {
-  width: 15px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/grid/page-next.png");
-  /* padding-right: 3px; */
-  background-repeat: no-repeat;
-}
-.paging-refresh {
-  width: 15px;
-  height: 16px;
-  background-image: url("../../../assets/Resource1/content/images/grid/refresh.png");
-  /* padding-right: 3px; */
-  background-repeat: no-repeat;
-}
-
-.table-paging-right {
-  position: absolute;
-  right: 1em;
-  align-items: center;
+<style scoped>
+.isHide {
+  display: none;
 }
 </style>

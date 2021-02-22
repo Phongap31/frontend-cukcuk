@@ -1,0 +1,48 @@
+@import './layout/header.css';
+@import './layout/sidebar.css';
+@import './layout//content.css';
+@import './view/employee.css';
+@import './view/formdetail.css';
+@import './basic/base.css';
+@import './basic/button.css';
+@import './basic/common.css';
+@import './basic/icon.css';
+@import './basic/input.css';
+@import './basic/table.css';
+body {
+    margin: 0;
+    font-family: Tahoma_Regular !important;
+    font-size: 13px !important;
+}
+
+
+/* @font-face {
+    font-family: 'fontello';
+    src: url('../assets/Resource1/content/font/fontello.woff') format('opentype');
+}
+
+@font-face {
+    font-family: 'Tahoma_Bold';
+    src: url('../assets/Resource1/content/font/Tahoma_Bold.woff') format('opentype');
+}
+
+@font-face {
+    font-family: 'Tahoma_Regular';
+    src: url('../assets/Resource1/content/font/Tahoma_Regular.woff') format('opentype');
+} */
+
+::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
+    /* // z-index: 1231232123421 */
+}
+
+::-webkit-scrollbar-track {
+    width: 6px;
+    background-color: #bbb;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    border-radius: 8px
+}

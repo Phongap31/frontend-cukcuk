@@ -63,7 +63,7 @@
               <div class="btnadd-icon"></div>
               <div>Cất</div>
             </button>
-            <button>
+            <button @click="btnDeleteOnClick()">
               <div class="m-btn-icon icon-remove"></div>
               <div>Xóa</div>
             </button>
@@ -80,6 +80,11 @@
               <div>Đóng</div>
             </button>
           </div>
+          <Delete
+            :ishideForDeleteChild="ishideDelete"
+            :infoDeleteChild="newEmployee"
+            v-on:ishideDeleteParent="changeIsHideDelete"
+          />
           <div class="tabs-detail">
             <button class="tablinks" id="openDefault">Thông tin chung</button>
           </div>
@@ -92,11 +97,11 @@
                   <td>
                     <span class="warning-text"></span>
                     <input
-                    :disabled="!isdisable"
+                      :disabled="!isdisable"
                       ref="nameInput"
                       v-model="newEmployee.employeeCode"
                       class="form-input"
-                      :class="{isWarning: isWarning}"
+                      :class="{ isWarning: isWarning }"
                       type="text"
                       id="input-employeeCode"
                     />
@@ -143,7 +148,7 @@
                     <input
                       v-model="newEmployee.fullName"
                       class="form-input"
-                      :class="{isWarning: isWarning}"
+                      :class="{ isWarning: isWarning }"
                       type="text"
                     />
                   </td>
@@ -188,7 +193,7 @@
                   <td class="col-text">Ngày cấp</td>
                   <td>
                     <input
-                    class="form-input-date"
+                      class="form-input-date"
                       v-model="newEmployee.identityDate"
                       type="date"
                       name=""
@@ -214,12 +219,20 @@
                   <td>Phân quyền <span class="input-require">(*)</span></td>
                   <td colspan="1">
                     <span class="warning-text"></span>
-                    <input v-model="newEmployee.ruleCode" :value="0" type="checkbox" :checked="0"/>Vai trò
-                    quản trị hệ thống
+                    <input
+                      v-model="newEmployee.ruleCode"
+                      :value="0"
+                      type="checkbox"
+                      :checked="0"
+                    />Vai trò quản trị hệ thống
                   </td>
                   <td colspan="2">
-                    <input v-model="newEmployee.ruleCode" :value="1" type="checkbox" :checked="1" />Vai trò quản lý
-                    chuỗi
+                    <input
+                      v-model="newEmployee.ruleCode"
+                      :value="1"
+                      type="checkbox"
+                      :checked="1"
+                    />Vai trò quản lý chuỗi
                   </td>
                 </tr>
 
@@ -233,7 +246,7 @@
                     <select
                       v-model="newEmployee.statusWork"
                       class="form-input"
-                      :class="{isWarning: isWarning}"
+                      :class="{ isWarning: isWarning }"
                       name=""
                       id=""
                     >
@@ -242,8 +255,8 @@
                     </select>
                   </td>
                   <td colspan="2">
-                    <input type="checkbox" name="" id="" />Cho phép làm việc
-                    với phần mềm CukCuk
+                    <input type="checkbox" name="" id="" />Cho phép làm việc với
+                    phần mềm CukCuk
                   </td>
                 </tr>
 
@@ -253,13 +266,25 @@
                     Mật khẩu truy cập <span class="input-require">(*)</span>
                   </td>
                   <td>
-                    <input class="form-input" :class="{isWarning: isWarning}" type="password" name="" id="" />
+                    <input
+                      class="form-input"
+                      :class="{ isWarning: isWarning }"
+                      type="password"
+                      name=""
+                      id=""
+                    />
                   </td>
                   <td class="col-text-password">
                     Xác nhận mật khẩu <span class="input-require">(*)</span>
                   </td>
                   <td>
-                    <input class="form-input" :class="{isWarning: isWarning}" type="password" name="" id="" />
+                    <input
+                      class="form-input"
+                      :class="{ isWarning: isWarning }"
+                      type="password"
+                      name=""
+                      id=""
+                    />
                   </td>
                 </tr>
 
@@ -274,7 +299,7 @@
                 <tr v-if="addOrupdateChild == 'Update'">
                   <td></td>
                   <td colspan="2">
-                    <input type="checkbox" name="" id=""> Thay đổi mật khẩu
+                    <input type="checkbox" name="" id="" /> Thay đổi mật khẩu
                   </td>
                 </tr>
               </table>
@@ -285,22 +310,7 @@
             </div>
           </div>
         </div>
-        <div class="dialog-footer">
-          <!-- <button
-            id="btnCancel"
-            class="m-btn m-btn-default m-btn-cancel"
-            v-on:click="btnCancelOnClick"
-          >
-            Hủy
-          </button>
-          <button
-            id="btnSave"
-            @click="btnAddOnClick()"
-            class="m-btn m-btn-default"
-          >
-            <i class="far fa-save"></i><span class="btn-text">Lưu</span>
-          </button> -->
-        </div>
+        <div class="dialog-footer"></div>
       </div>
     </div>
   </div>
@@ -308,8 +318,12 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import Delete from "./CheckToClose";
 export default {
-  props: ["ishide","isdisable", "infoUpdateOrAddChild", "addOrupdateChild"],
+  components: {
+    Delete,
+  },
+  props: ["ishide", "isdisable", "infoUpdateOrAddChild", "addOrupdateChild"],
   // mounted: function () {
   //   this.focusInputTest();
   // },
@@ -325,10 +339,9 @@ export default {
 
     // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
-      if(this.validateInputNotNull.errorMsg != ''){
+      if (this.validateInputNotNull.errorMsg != "") {
         this.isWarning = true;
-      }
-      else{
+      } else {
         this.isWarning = false;
         if (this.addOrupdateChild == "Add") {
           axios({
@@ -352,9 +365,17 @@ export default {
         }
       }
     },
-    
-    
+    //mở popup delete
+    btnDeleteOnClick() {
+      this.ishideDelete = false;
+    },
 
+    //Đóng popup delete
+    changeIsHideDelete(value) {
+      this.ishideDelete = value;
+    },
+
+    //Đóng popup detail info
     btnCancelOnClick() {
       this.$emit("ishideToParent", true);
     },
@@ -363,21 +384,20 @@ export default {
     formatDateDefalut(date) {
       return moment(String(date)).format("YYYY-MM-DD");
     },
-   
   },
 
   computed: {
     //Kiểm tra bắt buộc nhập
-    validateInputNotNull(){
-      let errorMsg = '';
-      if(this.newEmployee.employeeCode == ""){
-        errorMsg = 'ban chua nhap ma nv';
+    validateInputNotNull() {
+      let errorMsg = "";
+      if (this.newEmployee.employeeCode == "") {
+        errorMsg = "ban chua nhap ma nv";
         return errorMsg;
       }
       return errorMsg;
-    }
+    },
   },
-  
+
   //Cập nhật khi có bất kỳ thay đổi nào
   updated() {
     this.newEmployee = this.infoUpdateOrAddChild;
@@ -396,6 +416,7 @@ export default {
       dialog: false,
       display: "none",
       isWarning: false,
+      ishideDelete: true,
     };
   },
 };
@@ -497,110 +518,11 @@ export default {
   line-height: 40px;
   font-style: italic;
 }
-.group-button-detail {
-  background-color: #f5f5f5;
-  overflow: hidden;
-  display: flex;
-}
-.group-button-detail button {
-  border: none;
-  display: flex;
-}
-.tabs-detail {
-  background-color: #f5f5f5;
-  overflow: hidden;
-  margin: 10px 0;
-}
-.tabs-detail button {
-  background-color: #fff;
-  float: left;
-  border-bottom: none;
-  border-top: 3px solid #0072bc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  outline: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  transition: 0.3s;
-  font-size: 15px;
-  color: #0072bc;
-}
-.infor-detail-input label {
-  display: flex;
-}
-.table-detail {
-  width: 100%;
-  /* border: 1px solid #ccc; */
-}
-.input-require {
-  color: red;
-}
-.table-detail tr {
-  margin-top: 20px;
-}
-.table-detail td:nth-child(1) {
-  width: 20%;
-}
-.form-input {
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 4px 0;
-  background-color: #ddd;
-}
-.col-text{
-  padding-left: 50px;
-}
-.col-text-password{
-  text-align: center;
-}
-.text-note{
-  font-size: 13px;
-  font-style: italic;
-}
-.form-input-date{
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 3px 0;
-  background-color: #ddd;
-}
-.form-input:focus {
-  outline: 1px solid #0087be;
-}
-.table-detail .col-50 {
-  width: 32%;
-}
-.table-detail input[type="checkbox"]{
-  margin: 2px 6px 2px 0;
-  border: 1px solid #ccc;
-  padding: 3px 0;
-}
-.info-detail {
-  display: flex;
-}
-.noteforUser {
-  font-size: 12px;
-  padding: 0 5px;
-  font-style: italic;
-}
-.info-detail-avatar{
-  align-items: center;
-  text-align: center;
-  font-size: 13px;
-  margin-left: 10px;
-}
-.avatar-img {
-  width: 110px;
-  height: 100px;
-  background-image: url("../../../assets/Resource1/content/images/avatardefault.png");
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
 
-.isWarning{
+.isWarning {
   outline: 1px solid red;
 }
-.isDisable{
+.isDisable {
   background-color: #0087be;
 }
 </style>

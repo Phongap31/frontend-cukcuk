@@ -14,6 +14,7 @@
 import Content from "./components/layout/Content";
 import Header from "./components/layout/Header";
 import SideBar from "./components/layout/SideBar";
+
 export default {
   components: {
     Content,
@@ -29,6 +30,7 @@ export default {
 </script>
 
 <style>
+@import './styles/index.css';
 body {
   margin: 0;
 }

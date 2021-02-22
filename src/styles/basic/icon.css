@@ -1,0 +1,116 @@
+.icon-add {
+    width: 14px;
+    height: 14px;
+    background-image: url("../../assets/Resource1/content/images/SaveAdd16.png");
+    padding-right: 4px;
+    background-repeat: no-repeat;
+}
+
+.icon-duplicate {
+    width: 14px;
+    height: 14px;
+    background-image: url("../../assets/Resource1/content/images/Save16.png");
+    padding-right: 4px;
+    background-repeat: no-repeat;
+}
+
+.icon-update {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/Edit16.png");
+    padding-right: 3px;
+    background-repeat: no-repeat;
+}
+
+.icon-remove {
+    width: 15px;
+    height: 15px;
+    background-image: url("../../assets/Resource1/content/images/Disable16.png");
+    padding-right: 3px;
+    background-repeat: no-repeat;
+}
+
+.icon-view {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/viewEmail.png");
+    padding-right: 3px;
+    background-repeat: no-repeat;
+}
+
+.icon-import {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/Import16.png");
+    padding-right: 3px;
+    background-repeat: no-repeat;
+}
+
+.icon-help {
+    width: 12px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid steelblue;
+    background-image: url("../../assets/Resource1/content/images/iconHelp.png");
+    padding-right: 3px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.double-paging-left-icon {
+    width: 15px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/grid/page-first.png");
+    /* padding-right: 3px; */
+    background-repeat: no-repeat;
+}
+
+.double-paging-right-icon {
+    width: 15px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/grid/page-last.png");
+    /* padding-right: 3px; */
+    background-repeat: no-repeat;
+}
+
+.paging-left-icon {
+    width: 15px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/grid/page-prev.png");
+    /* padding-right: 3px; */
+    background-repeat: no-repeat;
+}
+
+.paging-right-icon {
+    width: 15px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/grid/page-next.png");
+    /* padding-right: 3px; */
+    background-repeat: no-repeat;
+}
+
+.paging-refresh {
+    width: 15px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/grid/refresh.png");
+    /* padding-right: 3px; */
+    background-repeat: no-repeat;
+}
+
+.reply .reply-icon {
+    width: 15px;
+    height: 15px;
+    background-position: center;
+    background-image: url("../../assets/Resource1/content/images/viewEmail.png");
+    background-repeat: no-repeat;
+    margin-right: 3px;
+}
+
+.avatar-img {
+    width: 110px;
+    height: 100px;
+    background-image: url("../../assets/Resource1/content/images/avatardefault.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

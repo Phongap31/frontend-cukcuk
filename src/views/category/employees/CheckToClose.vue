@@ -1,56 +1,63 @@
 <template>
-    <div>
-        <div class="delete-dialog" title="Xóa nhân viên" :class="{isHide: ishideForDeleteChild}">
-            <div class="dialog-modal"></div>
-            <div class="dialog-content">
-                <div class="dialog-header">
-                    <div class="dialog-header-title">Xóa nhân viên</div>
-                    <!-- <div class="dialog-header-close"><button>x</button></div>     -->
-                </div>
-                <div class="dialog-body">
-                    <div class="dialog-body-name">Tên nhân viên: {{infoDeleteChild.fullName}}</div>
-                    <div class="dialog-body-query">Bạn có chắc muốn xóa nhân viên này?</div>
-                </div>
-                <div class="dialog-footer">
-                    <div class="dialog-footer-groupButton">
-                        <button @click="deleteOnClick()">Xóa</button>
-                        <button @click="btnCancelOnClick()">Hủy</button>
-                    </div>
-                </div>
-            </div>
+  <div>
+    <div
+      class="delete-dialog"
+      title="Xóa nhân viên"
+      :class="{ isHide: ishideForDeleteChild }"
+    >
+      <div class="dialog-modal"></div>
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <div class="dialog-header-title">Xóa nhân viên</div>
+          <!-- <div class="dialog-header-close"><button>x</button></div>     -->
         </div>
+        <div class="dialog-body">
+          <div class="dialog-body-name">
+            Tên nhân viên: {{ infoDeleteChild.fullName }}
+          </div>
+          <div class="dialog-body-query">
+            Bạn có chắc muốn xóa nhân viên này?
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <div class="dialog-footer-groupButton">
+            <button @click="deleteOnClick()">Xóa</button>
+            <button @click="btnCancelOnClick()">Hủy</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-    props: ['ishideForDeleteChild', 'infoDeleteChild'],
-    methods: {
-        //hàm xóa bản ghi
-        deleteOnClick(){
-            axios({
-                method: "DELETE",
-                url: `https://localhost:44306/api/v1/Employees/${this.infoDeleteChild.employeeID}`,
-            })
-            .then((res) => console.log(res.status))
-            .catch((e) => console.log(e));
-            location.reload();
-        },
-
-        //đóng popup
-        btnCancelOnClick(){
-            this.$emit('ishideDeleteParent', true)
-        }
+  props: ["ishideForDeleteChild", "infoDeleteChild"],
+  methods: {
+    //hàm xóa bản ghi
+    deleteOnClick() {
+      axios({
+        method: "DELETE",
+        url: `https://localhost:44306/api/v1/Employees/${this.infoDeleteChild.employeeID}`,
+      })
+        .then((res) => console.log(res.status))
+        .catch((e) => console.log(e));
+      location.reload();
     },
 
-    data(){
-        return {
-            deleteObject: Object
-        }
-    }
-    
-}
+    //đóng popup
+    btnCancelOnClick() {
+      this.$emit("ishideDeleteParent", true);
+    },
+  },
+
+  data() {
+    return {
+      deleteObject: Object,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -114,20 +121,20 @@ export default {
   font-size: 20px;
   padding-left: 15px;
 }
-.dialog-body-name{
-    padding: 20px 0;
+.dialog-body-name {
+  padding: 20px 0;
 }
-.dialog-body-query{
-    font-style: italic;
-    font-weight: 600;
-    padding-top: 20px;
+.dialog-body-query {
+  font-style: italic;
+  font-weight: 600;
+  padding-top: 20px;
 }
-.dialog-footer button{
-    padding: 5px 20px;
-    cursor: pointer;
-    margin: 0 5px;
-    border: none;
-    outline: #0087be solid 1px;
+.dialog-footer button {
+  padding: 5px 20px;
+  cursor: pointer;
+  margin: 0 5px;
+  border: none;
+  outline: #0087be solid 1px;
 }
 .dialog-footer {
   display: flex;
