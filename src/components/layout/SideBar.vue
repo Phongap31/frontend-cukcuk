@@ -4,17 +4,29 @@
         <div class="nav-item" >
           <div class="nav-item-icon navbar-item-category"></div>
           <div class="category-dropdown">
-          <div class="nav-item-text">Danh mục</div>
+          <div class="nav-item-text">Danh Mục</div>
             <div class="category-dropdown-content">
                 <router-link to="/category/list">
-                <div>Danh mục nhân viên</div>
+                <div>Nhân viên</div>
                 </router-link>
             </div>
           </div>
         </div>
         <div class="nav-item">
           <div class="nav-item-icon navbar-item-category"></div>
-          <div class="nav-item-text">Sản phẩm</div>
+          <div class="nav-item-text">Tổng Quan</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Báo Cáo</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Mua Hàng</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Sản Phẩm</div>
         </div>
     </div>
   </div>

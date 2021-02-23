@@ -14,7 +14,7 @@
 .side-bar .navbar-content .nav-item {
     display: flex;
     cursor: pointer;
-    color: rgb(212, 202, 202);
+    color: #fff;
     text-decoration: none;
     align-items: center;
     padding: 12px 0 12px 10px;
@@ -29,11 +29,12 @@
 
 .side-bar .navbar-content .nav-item:focus {
     background-color: #005082;
-    color: #fff;
+    color: black;
 }
 
 .side-bar .navbar-content .nav-item:active {
     background-color: #005082;
+    color: black;
 }
 
 .nav-item .nav-item-text {
