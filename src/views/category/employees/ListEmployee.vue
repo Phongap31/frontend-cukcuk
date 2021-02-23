@@ -41,11 +41,11 @@
           <div class="m-btn-icon icon-view"></div>
           <div>Xem</div>
         </button>
-        <button @click="rowOnClick(employees[indexForAction])">
+        <button @click="rowOnClick(employees[indexForAction].employeeID)">
           <div class="m-btn-icon icon-update"></div>
           <div>Sửa</div>
         </button>
-        <button @click="removeOnClick(employees[indexForAction])">
+        <button @click="removeOnClick(employees[indexForAction].employeeID)">
           <div class="m-btn-icon icon-remove"></div>
           <div>Xóa</div>
         </button>
@@ -71,7 +71,7 @@
         :infoUpdateOrAddChild="infoUpdateOrAdd"
         v-on:ishideToParent="changeIsHideToClose"
         @addNewEmployee="toAddNewEmployee"
-        ref="input"
+        ref="details"
       />
       <table class="table-employee" cellpadding="6" cellspacing="0">
         <thead>
@@ -80,7 +80,7 @@
               <div>Tên đăng nhập</div>
               <div class="filter-col">
                 <button>*</button>
-                <input type="text" />
+                <input ref="input" type="text" />
               </div>
             </th>
             <th class="col-fullname">
@@ -159,7 +159,7 @@
             :class="{ isHide: !ishideForSearch }"
             v-for="(employee, index) in employees"
             :key="index"
-            @dblclick="rowOnClick(employee)"
+            @dblclick="rowOnClick(employee.employeeID)"
           >
             <td>{{ employee.employeeCode }}</td>
             <td>{{ employee.fullName }}</td>
@@ -219,9 +219,7 @@ export default {
     EmployeeDetail,
     Delete,
   },
-  // mounted(){
-  //   this.forsucInput()
-  // },
+
   methods: {
     //Hàm mở form detail để thực hiện thêm mới
     btnAddOnClick() {
@@ -229,13 +227,20 @@ export default {
       this.isDisableForUpdate = true;
       this.infoUpdateOrAdd = this.employee;
       this.addOrUpdateString = "Add";
+      // this.focusInput();
 
-      // this.$nextTick(()=>{
-      //   this.forsucInput();
-      // });
+      //Focus mặc định vào ô nhập dữ liệu Mã nhân viên
+      this.$nextTick(() => {
+        this.$refs.details.$refs.employeeCode.focus();
+        this.$refs.details.$refs.employeeCode.value = "NV00003";
+      })
     },
-    // forsucInput(){
-    //   this.$refs.input.$el.focus();
+
+    // //
+    // focusInput(){
+    //   setTimeout(() => {
+    //     this.$refs.details.$refs.employeeCode.focus();
+    //   },0);
     // },
 
     //Hàm đóng form detail
@@ -260,23 +265,32 @@ export default {
     },
 
     //Hàm chọn để mở popup delete thực thi xóa nhân viên
-    removeOnClick(employee) {
-      if (employee == null) {
+    async removeOnClick(employeeID) {
+      if (employeeID == null) {
         alert("Bạn chưa chọn đối tượng cần xóa");
       } else {
+        const response = await axios({
+          method: "GET",
+          url: `https://localhost:44306/api/v1/Employees/${employeeID}`
+        });
         this.ishideForDelete = false;
-        this.infoDelete = employee;
+        this.infoDelete = response.data;
       }
     },
 
     //Hàm chọn nhân viên để thực thi update
-    rowOnClick(employee) {
-      if (employee == null) {
+    async rowOnClick(employeeID) {
+      if (employeeID == null) {
         alert("Bạn chưa chọn đối tượng cần chỉnh sửa");
       } else {
+        const response = await axios({
+          method: "GET",
+          url: `https://localhost:44306/api/v1/Employees/${employeeID}`
+        });
         this.ishideForAdd = false;
         this.isDisableForUpdate = false;
-        this.infoUpdateOrAdd = employee;
+        this.infoUpdateOrAdd = response.data
+        console.log(this.infoUpdateOrAdd);
         this.addOrUpdateString = "Update";
       }
     },
@@ -343,7 +357,11 @@ export default {
     const response = await axios.get(
       "https://localhost:44306/api/v1/Employees"
     );
-    this.employees = response.data;
+    if(response.headers.statusCode == 500){
+      console.log("ahihi");
+    } else{
+      this.employees = response.data;
+    }
     // this.employees.dateOfbirth = this.employees.dateOfbirth.split("T")[0];
   },
 };
