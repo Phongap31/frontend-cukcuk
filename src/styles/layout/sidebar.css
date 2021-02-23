@@ -5,6 +5,7 @@
     height: 100vh;
     background-color: #0087be !important;
     border-right: 1px solid #bbbbbb;
+
 }
 
 .side-bar .navbar-content {
@@ -14,12 +15,13 @@
 .side-bar .navbar-content .nav-item {
     display: flex;
     cursor: pointer;
-    color: rgb(212, 202, 202);
+    color: #fff;
     text-decoration: none;
     align-items: center;
     padding: 12px 0 12px 10px;
-    font-size: 14px;
+    font-size: 16px;
     border-top: 1px solid #016087!important;
+    border-bottom: 1px solid #016087!important;
 }
 
 .side-bar .navbar-content .nav-item:hover {
@@ -39,6 +41,7 @@
 .nav-item .nav-item-text {
     align-self: center;
     /* margin-top: 2px; */
+    font-size: 18px;
 }
 
 .nav-item .nav-item-icon {

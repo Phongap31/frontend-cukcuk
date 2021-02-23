@@ -12,10 +12,26 @@
             </div>
           </div>
         </div>
+        <!-- <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Sản phẩm</div>
+        </div>
         <div class="nav-item">
           <div class="nav-item-icon navbar-item-category"></div>
           <div class="nav-item-text">Sản phẩm</div>
         </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Sản phẩm</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Sản phẩm</div>
+        </div>
+        <div class="nav-item">
+          <div class="nav-item-icon navbar-item-category"></div>
+          <div class="nav-item-text">Sản phẩm</div>
+        </div> -->
     </div>
   </div>
 </template>

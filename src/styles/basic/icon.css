@@ -1,16 +1,17 @@
 .icon-add {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     background-image: url("../../assets/Resource1/content/images/SaveAdd16.png");
-    padding-right: 4px;
+    padding-right: 5px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-duplicate {
     width: 14px;
     height: 14px;
     background-image: url("../../assets/Resource1/content/images/Save16.png");
-    padding-right: 4px;
+    padding-right: 5px;
     background-repeat: no-repeat;
 }
 
@@ -26,7 +27,7 @@
     width: 15px;
     height: 15px;
     background-image: url("../../assets/Resource1/content/images/Disable16.png");
-    padding-right: 3px;
+    padding-right: 5px;
     background-repeat: no-repeat;
 }
 

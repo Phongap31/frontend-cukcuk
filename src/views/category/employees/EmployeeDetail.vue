@@ -3,22 +3,18 @@
     <div
       class="m-dialog dialog-detail"
       title="Thông tin nhân viên"
-      :class="{ isHide: ishide }"
+      :class="{ isHide: ishideFocus }"
     >
       <div class="dialog-modal"></div>
       <div class="dialog-content">
         <div class="dialog-header">
-          <div class="dialog-header-title" v-if="addOrupdateChild == 'Add'">
-            Thêm nhân viên
-          </div>
-          <div class="dialog-header-title" v-if="addOrupdateChild == 'Update'">
-            Cập nhật nhân viên
+          <div class="dialog-header-title">
+            Nhân viên
           </div>
           <div class="dialog-header-close">
             <button v-on:click="btnCancelOnClick">x</button>
           </div>
         </div>
-        <br />
         <div class="dialog-body">
           <div class="group-button-detail" v-if="addOrupdateChild == 'Add'">
             <button @click="addNewEmployee()">
@@ -33,11 +29,11 @@
               <div class="btnadd-icon"></div>
               <div>Cất</div>
             </button>
-            <button disabled>
+            <button>
               <div class="m-btn-icon icon-remove"></div>
               <div>Xóa</div>
             </button>
-            <button disabled>
+            <button>
               <div class="btnadd-icon"></div>
               <div>Hoãn</div>
             </button>
@@ -103,7 +99,6 @@
                       class="form-input"
                       :class="{ isWarning: errorMessage }"
                       type="text"
-                      id="input-employeeCode"
                       @input="inputHandle()"
                       
                     />
@@ -122,6 +117,7 @@
                   <td>Email</td>
                   <td colspan="2" class="col-50">
                     <input
+                      ref="email"
                       v-model="newEmployee.email"
                       class="form-input"
                       type="email"
@@ -148,6 +144,7 @@
                   <td colspan="4">
                     <span class="warning-text"></span>
                     <input
+                    style="width: calc(100% - 2px);"
                       v-model="newEmployee.fullName"
                       class="form-input"
                       :class="{ isWarning: errorMessage }"
@@ -189,6 +186,7 @@
                   <td>Số CMND</td>
                   <td class="col-50">
                     <input
+                    style="width: calc(100% - 1px);"
                       v-model="newEmployee.identityCode"
                       class="form-input"
                       type="text"
@@ -211,6 +209,7 @@
                   <td>Nơi cấp CMND</td>
                   <td colspan="4">
                     <input
+                    style="width: calc(100% - 2px);"
                       v-model="newEmployee.identityPlace"
                       type="text"
                       class="form-input"
@@ -258,7 +257,7 @@
                       <option value="1">Thử việc</option>
                     </select>
                   </td>
-                  <td colspan="2">
+                  <td v-if="addOrupdateChild == 'Add'" colspan="2">
                     <input type="checkbox" name="" id="" />Cho phép làm việc với
                     phần mềm CukCuk
                   </td>
@@ -283,6 +282,7 @@
                   </td>
                   <td>
                     <input
+                    style="width: calc(100% - 1px);"
                       class="form-input"
                       :class="{ isWarning: isWarning }"
                       type="password"
@@ -329,18 +329,16 @@ export default {
   },
   props: ["ishide", "isdisable", "infoUpdateOrAddChild", "addOrupdateChild"],
   // mounted: function () {
-  //   this.focusInputTest();
+  //   this.focusInput();
+  // },
+  // watch: {
+  //   ishideFocus: function(){
+  //     this.$refs.employeeCode.focus();
+  //   }
   // },
   methods: {
-    //test focus input
-    focusInputTest() {
-      this.$refs.nameInput.focus();
-      this.$refs.nameInput.value = "NV0003";
-    },
-    // focusInput() {
-    //   this.$refs.email.$el.focus();
-    // },
-
+    
+    
     // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
       if (this.errorMessage) {
@@ -348,21 +346,12 @@ export default {
       } else {
         // this.isWarning = false;
         if (this.addOrupdateChild == "Add") {
-          const response = await axios({
+            const response = await axios({
             method: "POST",
             url: "https://localhost:44306/api/v1/Employees",
             data: this.newEmployee,
-          })
-            .then((res) => console.log(res.status))
-            .catch((e) => console.log(e));
-          console.log(response);
-          if(response.data == 1){
-            alert('Them moi thanh cong!!!')
-            location.reload();
-          }
-          else{
-            alert("res.userMsg")
-          }
+          }).catch((e) => console.log(e));
+          console.log('res:' +response);
           
         } else if (this.addOrupdateChild == "Update") {
           await axios
@@ -370,13 +359,17 @@ export default {
               `https://localhost:44306/api/v1/Employees/${this.newEmployee.employeeID}`,
               this.newEmployee
             )
-            .then((res) => console.log(res.status))
+            .then((res) => console.log(res))
             .catch((e) => console.log(e));
             alert('Sua thanh cong!!!')
           location.reload();
         }
       }
     },
+    focusInput() {
+      this.$refs.employeeCode.focus();
+    },
+
     
     addNewEmployee(){
       this.newEmployee = this.employee;
@@ -406,21 +399,14 @@ export default {
       this.validated = true;
     }
   },
-
-  // mounted: function(){
-  //   this.addNewEmployee();
-  // },
+  mounted(){
+    this.$nextTick(() => {
+      this.$refs.employeeCode.focus();
+    })
+  },
 
   computed: {
     //Kiểm tra bắt buộc nhập
-    // validateInputNotNull() {
-    //   let errorMsg = "";
-    //   if (this.newEmployee.employeeCode.length < 0) {
-    //     errorMsg = "ban chua nhap ma nv";
-    //     return errorMsg;
-    //   }
-    //   return errorMsg;
-    // },
     errorMessage(){
       if(!this.validated){
         return '';
@@ -435,6 +421,8 @@ export default {
   //Cập nhật khi có bất kỳ thay đổi nào
   updated() {
     this.newEmployee = this.infoUpdateOrAddChild;
+    this.ishideFocus = this.ishide;
+    console.log(this.ishideFocus);
     this.newEmployee.dateOfBirth = this.formatDateDefalut(
       this.newEmployee.dateOfBirth
     );
@@ -452,6 +440,7 @@ export default {
       isWarning: false,
       ishideDelete: true,
       validated: false,
+      ishideFocus: true,
       employee: {
         employeeCode: "",
         fullName: "",

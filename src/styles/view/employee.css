@@ -120,11 +120,11 @@
   } */
 
 .col-username {
-    width: 15%;
+    width: 12%;
 }
 
 .col-fullname {
-    width: 32%;
+    width: 36%;
 }
 
 .col-phonenumber {
@@ -140,7 +140,7 @@
 }
 
 .col-workstatus {
-    width: 15%;
+    width: 10%;
 }
 
 

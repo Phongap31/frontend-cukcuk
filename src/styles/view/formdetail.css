@@ -1,38 +1,41 @@
 .m-dialog {
     z-index: 999;
-  }
-  
-  .dialog-header {
+}
+
+.dialog-header {
     position: relative;
-    height: 40px;
+    height: 30px;
     line-height: 60px;
     padding-left: 5px;
     padding-bottom: 13px;
     display: flex;
     font-size: 20px;
-    background-color: #0087be;
-  }
-  .dialog-header-title {
+    background-color: #016087;
+}
+
+.dialog-header-title {
     color: #fff;
     left: 0;
-  }
-  
-  .dialog-header-close {
+    margin-top: -7px;
+}
+
+.dialog-header-close {
     position: absolute;
-    right: 16px;
+    right: 10px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
     cursor: pointer;
-    top: 10px;
+    top: 7px;
     align-items: center;
     border: none;
     background-color: transparent;
     font-size: 24px;
     line-height: 24px;
     color: #0087be;
-  }
-  .dialog-modal {
+}
+
+.dialog-modal {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -40,40 +43,44 @@
     right: 0;
     background-color: black;
     opacity: 0.4;
-  }
-  
-  .dialog-content {
+}
+
+.dialog-content {
     position: fixed;
     border-radius: 5px;
-    border: 5px solid #0087be;
+    border: 4px solid #016087;
     border-top: none;
-    width: 950px;
+    width: 1000px;
     background-color: #fff;
     left: calc(50% - 475px);
     top: calc(50% - 310px);
-  }
-  .dialog-body {
-    padding: 0 16px 16px 16px;
-  }
-  .dialog-footer {
+}
+
+.dialog-body {
+    padding: 0;
+}
+
+.dialog-footer {
     display: flex;
     width: 100%;
-    height: 60px;
-    background-color: #e9ebee;
+    height: 100px;
     border-radius: 0 0 5px 5px;
     align-items: center;
     justify-content: flex-end;
     padding: 12px 24px;
     box-sizing: border-box;
-  }
-  .el-avatar-employee {
+}
+
+.el-avatar-employee {
     padding-top: 16px;
     padding-right: 16px;
-  }
-  .el-avatar-note {
+}
+
+.el-avatar-note {
     font-size: 12px;
-  }
-  .el-avatar-employee .el-avatar {
+}
+
+.el-avatar-employee .el-avatar {
     border: 1px solid #ccc;
     width: 160px;
     height: 160px;
@@ -84,23 +91,40 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-  }
-  .currency-for-input {
+}
+
+.currency-for-input {
     position: absolute;
     right: 40px;
     line-height: 40px;
     font-style: italic;
-  }
+}
 
 .group-button-detail {
     background-color: #f5f5f5;
     overflow: hidden;
     display: flex;
+    height: 35px;
 }
 
 .group-button-detail button {
-    border: none;
+    width: 70px;
+    height: 30px;
+    border-radius: 3px;
+    align-items: center;
+    border: 1px #f5f5f5 solid;
     display: flex;
+    background-color: #f5f5f5;
+    margin: 1px 20px 1px 1px;
+}
+
+.group-button-detail button:hover {
+    border: #0087be solid 1px;
+}
+
+.group-button-detail button:focus {
+    outline: none;
+    border: #0087be solid 1px;
 }
 
 .tabs-detail {
@@ -143,6 +167,7 @@
 
 .table-detail td:nth-child(1) {
     width: 20%;
+    margin-right: 50px;
 }
 
 .form-input {
@@ -188,6 +213,7 @@
 
 .info-detail {
     display: flex;
+    padding-left: 10px;
 }
 
 .noteforUser {
@@ -204,7 +230,7 @@
 }
 
 
-  /* .dialog-body {
+/* .dialog-body {
     height: 130px;
     font-size: 20px;
     padding-left: 15px;
@@ -216,4 +242,6 @@
     font-style: italic;
     font-weight: 600;
     padding-top: 20px; */
-  /* } */
+
+
+/* } */
