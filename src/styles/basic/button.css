@@ -42,23 +42,29 @@ button:focus {
 .button-group-option {
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 36px;
     border: 1px solid #ccc;
     border-bottom: none;
+    font-size: 10px !important;
 }
 
 .button-group-option button {
     display: flex;
-    border: none;
+    width: auto;
+    border: 1px solid #fff;
     align-items: center;
     background-color: #fff;
-    padding: 8px;
-    margin-right: 5px;
-    /* padding: 0 20px 0 0; */
+    padding: 9px;
+    /* margin-right: 3px; */
     cursor: pointer;
 }
 
 .button-group-option button:hover {
+    border: 1px solid #0087be;
+}
+
+.button-group-option button:focus {
+    outline: none;
     border: 1px solid #0087be;
 }
 
@@ -67,11 +73,11 @@ button:focus {
     margin-top: 10px;
     border: 1px solid #ccc;
 }
+
 .dialog-footer button {
     padding: 5px 20px;
     cursor: pointer;
     margin: 0 5px;
     border: none;
     outline: #0087be solid 1px;
-  }
-  
+}

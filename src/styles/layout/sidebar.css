@@ -1,11 +1,11 @@
 .side-bar {
     position: relative;
     float: left;
+    font-size: 14px;
     width: 250px;
     height: 100vh;
     background-color: #0087be !important;
     border-right: 1px solid #bbbbbb;
-
 }
 
 .side-bar .navbar-content {
@@ -15,13 +15,73 @@
 .side-bar .navbar-content .nav-item {
     display: flex;
     cursor: pointer;
+    height: 23px;
     color: #fff;
     text-decoration: none;
     align-items: center;
     padding: 12px 0 12px 10px;
-    font-size: 16px;
+    /* font-size: 1px; */
     border-top: 1px solid #016087!important;
     border-bottom: 1px solid #016087!important;
+}
+
+.nav-item .nav-item-icon {
+    width: 40px;
+    height: 50px;
+    background-image: url('../../assets/Resource1/content/images/iconMenu.png');
+    background-repeat: no-repeat;
+}
+
+.navbar-item-category {
+    background-position: 6px -142px;
+}
+
+.navbar-item-dashboard {
+    background-position: 6px 11px;
+}
+
+.navbar-item-report {
+    background-position: 6px -181px;
+}
+
+.navbar-item-order {
+    background-position: 6px -363px;
+}
+
+.navbar-item-stock {
+    background-position: 6px -28px;
+}
+
+.navbar-item-cash {
+    background-position: 6px -67px;
+}
+
+.navbar-item-bank {
+    background-position: 6px -28px;
+}
+
+.navbar-item-cost {
+    background-position: 6px -67px;
+}
+
+.navbar-item-sale {
+    background-position: 6px -107px;
+}
+
+.navbar-item-menu {
+    background-position: 6px -445px;
+}
+
+.navbar-item-setting {
+    background-position: 6px -221px;
+}
+
+.navbar-item-help {
+    background-position: 6px -270px;
+}
+
+.navbar-item-5foot {
+    background-position: 6px -484px;
 }
 
 .side-bar .navbar-content .nav-item:hover {
@@ -42,22 +102,30 @@
 .nav-item .nav-item-text {
     align-self: center;
     /* margin-top: 2px; */
-    font-size: 18px;
+    /* font-size: 18px; */
 }
 
-.nav-item .nav-item-icon {
+
+/* .nav-item .nav-item-icon {
     width: 20px;
     height: 20px;
     /* align-self: center; */
-    margin-right: 5px;
-    /* background-size: contain; */
-}
 
-.navbar-item-category {
+
+/* margin-right: 5px; */
+
+
+/* background-size: contain; */
+
+
+/* } */
+
+
+/* .navbar-item-category {
     background-image: url("../../assets/Resource/icon/setting.png");
     background-size: contain;
     background-position: center;
-}
+} */
 
 
 /*Dropdown category */

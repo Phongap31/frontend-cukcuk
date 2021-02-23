@@ -20,8 +20,8 @@
         </div>
         <div class="dialog-footer">
           <div class="dialog-footer-groupButton">
-            <button @click="deleteOnClick()">Xóa</button>
-            <button @click="btnCancelOnClick()">Hủy</button>
+            <button @click="deleteOnClick()">Có</button>
+            <button @click="btnCancelOnClick()">Không</button>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ export default {
 .dialog-content {
   position: fixed;
   border-radius: 5px;
-  border: 5px solid #0087be;
+  border: 5px solid #016087;
   border-top: none;
   width: 650px;
   background-color: #fff;
@@ -79,7 +79,7 @@ export default {
   top: calc(50% - 310px);
 }
 .dialog-body {
-  height: 130px;
+  height: 90px;
   font-size: 18px;
   padding-left: 15px;
 }
@@ -89,7 +89,7 @@ export default {
 .dialog-body-query {
   font-style: italic;
   font-weight: 600;
-  padding-top: 20px;
+  padding-top: 15px;
 }
 .dialog-footer button {
   padding: 5px 20px;

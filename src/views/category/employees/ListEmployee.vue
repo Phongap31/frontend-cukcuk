@@ -354,14 +354,20 @@ export default {
     };
   },
   async created() {
-    const response = await axios.get(
+    await axios.get(
       "https://localhost:44306/api/v1/Employees"
-    );
-    if(response.headers.statusCode == 500){
-      console.log("ahihi");
-    } else{
-      this.employees = response.data;
-    }
+    ).then(res => {
+      console.log(res.status);
+      this.employees = res.data;
+    })
+    .catch((e) => {
+      if (e.response.status == 400){
+        alert("Gặp lỗi 400" + e.response.data.devMsg);
+      }
+      // console.log(response.status);
+    })
+
+    // this.employees = response.data;
     // this.employees.dateOfbirth = this.employees.dateOfbirth.split("T")[0];
   },
 };

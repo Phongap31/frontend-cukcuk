@@ -1,8 +1,8 @@
 .icon-add {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     background-image: url("../../assets/Resource1/content/images/SaveAdd16.png");
-    padding-right: 5px;
+    margin-right: 5px;
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -11,8 +11,9 @@
     width: 14px;
     height: 14px;
     background-image: url("../../assets/Resource1/content/images/Save16.png");
-    padding-right: 5px;
+    margin-right: 5px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-update {
@@ -21,39 +22,52 @@
     background-image: url("../../assets/Resource1/content/images/Edit16.png");
     padding-right: 3px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-remove {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     background-image: url("../../assets/Resource1/content/images/Disable16.png");
-    padding-right: 5px;
+    margin-right: 5px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-view {
     width: 16px;
     height: 16px;
     background-image: url("../../assets/Resource1/content/images/viewEmail.png");
-    padding-right: 3px;
+    margin-right: 3px;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-import {
     width: 16px;
     height: 16px;
     background-image: url("../../assets/Resource1/content/images/Import16.png");
-    padding-right: 3px;
+    margin-right: 3px;
     background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.icon-exclamation {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../assets/Resource1/content/images/exclamation.png");
+    margin-right: 3px;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .icon-help {
     width: 12px;
-    height: 14px;
+    height: 12px;
     border-radius: 50%;
     border: 1px solid steelblue;
     background-image: url("../../assets/Resource1/content/images/iconHelp.png");
-    padding-right: 3px;
+    margin-right: 3px;
     background-repeat: no-repeat;
     background-position: center;
 }

@@ -8,9 +8,7 @@
       <div class="dialog-modal"></div>
       <div class="dialog-content">
         <div class="dialog-header">
-          <div class="dialog-header-title">
-            Nhân viên
-          </div>
+          <div class="dialog-header-title">Nhân viên</div>
           <div class="dialog-header-close">
             <button v-on:click="btnCancelOnClick">x</button>
           </div>
@@ -26,7 +24,7 @@
               <div>Sửa</div>
             </button>
             <button @click="btnAddOnClick()">
-              <div class="btnadd-icon"></div>
+              <div class="btnadd-icon icon-import"></div>
               <div>Cất</div>
             </button>
             <button>
@@ -37,12 +35,13 @@
               <div class="btnadd-icon"></div>
               <div>Hoãn</div>
             </button>
+            <div class="spacing-button" disabled>|</div>
             <button @click="focusInputTest()">
-              <div class="btnadd-icon"></div>
+              <div class="btnadd-icon icon-help"></div>
               <div>Giúp</div>
             </button>
             <button @click="btnCancelOnClick()">
-              <div class="btnadd-icon"></div>
+              <div class="btnadd-icon icon-exclamation"></div>
               <div>Đóng</div>
             </button>
           </div>
@@ -56,7 +55,7 @@
               <div>Sửa</div>
             </button>
             <button disabled>
-              <div class="btnadd-icon"></div>
+              <div class="m-btn-icon icon-import"></div>
               <div>Cất</div>
             </button>
             <button @click="btnDeleteOnClick()">
@@ -64,15 +63,16 @@
               <div>Xóa</div>
             </button>
             <button disabled>
-              <div class="btnadd-icon"></div>
+              <div class="m-btn-icon"></div>
               <div>Hoãn</div>
             </button>
+            <div class="spacing-button" disabled>|</div>
             <button>
-              <div class="btnadd-icon"></div>
+              <div class="m-btn-icon icon-help"></div>
               <div>Giúp</div>
             </button>
             <button @click="btnCancelOnClick()">
-              <div class="btnadd-icon"></div>
+              <div class="m-btn-icon icon-exclamation"></div>
               <div>Đóng</div>
             </button>
           </div>
@@ -93,6 +93,7 @@
                   <td>
                     <span class="warning-text"></span>
                     <input
+                      style="width: calc(100% - 2px)"
                       :disabled="!isdisable"
                       ref="employeeCode"
                       v-model="newEmployee.employeeCode"
@@ -100,7 +101,7 @@
                       :class="{ isWarning: errorMessage }"
                       type="text"
                       @input="inputHandle()"
-                      
+                      id="employeeCode"
                     />
                     <!-- <span class="errorMsg">{{errorMessage}}</span> -->
                   </td>
@@ -144,12 +145,13 @@
                   <td colspan="4">
                     <span class="warning-text"></span>
                     <input
-                    style="width: calc(100% - 2px);"
+                      style="width: calc(100% - 2px)"
                       v-model="newEmployee.fullName"
                       class="form-input"
-                      :class="{ isWarning: errorMessage }"
                       type="text"
                       @input="inputHandle()"
+                      ref="fullName"
+                      id="fullname"
                     />
                     <!-- <span class="errorMsg">{{errorMessage}}</span> -->
                   </td>
@@ -186,7 +188,7 @@
                   <td>Số CMND</td>
                   <td class="col-50">
                     <input
-                    style="width: calc(100% - 1px);"
+                      style="width: calc(100% - 2px)"
                       v-model="newEmployee.identityCode"
                       class="form-input"
                       type="text"
@@ -209,7 +211,7 @@
                   <td>Nơi cấp CMND</td>
                   <td colspan="4">
                     <input
-                    style="width: calc(100% - 2px);"
+                      style="width: calc(100% - 2px)"
                       v-model="newEmployee.identityPlace"
                       type="text"
                       class="form-input"
@@ -222,20 +224,12 @@
                   <td>Phân quyền <span class="input-require">(*)</span></td>
                   <td colspan="1">
                     <span class="warning-text"></span>
-                    <input
-                     
-                      :value="0"
-                      type="checkbox"
-                      :checked="0"
-                    />Vai trò quản trị hệ thống
+                    <input class="checkbox-detail" :value="0" type="checkbox" :checked="0" />Vai trò
+                    quản trị hệ thống
                   </td>
                   <td colspan="2">
-                    <input
-
-                      :value="1"
-                      type="checkbox"
-                      :checked="1"
-                    />Vai trò quản lý chuỗi
+                    <input class="checkbox-detail"  :value="1" type="checkbox" :checked="1" />Vai trò
+                    quản lý chuỗi
                   </td>
                 </tr>
 
@@ -251,14 +245,14 @@
                       class="form-input"
                       :class="{ isWarning: isWarning }"
                       name=""
-                      id=""
+                      id="statusWork"
                     >
                       <option value="0">Chính thức</option>
                       <option value="1">Thử việc</option>
                     </select>
                   </td>
                   <td v-if="addOrupdateChild == 'Add'" colspan="2">
-                    <input type="checkbox" name="" id="" />Cho phép làm việc với
+                    <input class="checkbox-detail"  type="checkbox" name="" id="" />Cho phép làm việc với
                     phần mềm CukCuk
                   </td>
                 </tr>
@@ -270,26 +264,26 @@
                   </td>
                   <td>
                     <input
+                      style="width: calc(100% - 2px)"
                       class="form-input"
-                      :class="{ isWarning: isWarning }"
                       type="password"
                       name=""
-                      id=""
+                      id="password"
                     />
                   </td>
-                  <td class="col-text-password">
+                  <!-- <td class="col-text-password">
                     Xác nhận mật khẩu <span class="input-require">(*)</span>
                   </td>
                   <td>
                     <input
-                    style="width: calc(100% - 1px);"
+                      style="width: calc(100% - 1px)"
                       class="form-input"
                       :class="{ isWarning: isWarning }"
                       type="password"
                       name=""
                       id=""
                     />
-                  </td>
+                  </td> -->
                 </tr>
 
                 <!-- lưu ý -->
@@ -310,7 +304,8 @@
             </div>
             <div class="info-detail-avatar">
               <div class="avatar-img"></div>
-              <div>Chỉ được upload file .jpg, .jpeg, .png, .gif.</div>
+              <div class="feature-text">Chỉ được upload file</div>
+              <div><b>.jpg, .jpeg, .png, .gif.</b></div>
             </div>
           </div>
         </div>
@@ -337,41 +332,73 @@ export default {
   //   }
   // },
   methods: {
-    
-    
     // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
-      if (this.errorMessage) {
-        return ;
-      } else {
-        // this.isWarning = false;
-        if (this.addOrupdateChild == "Add") {
-            const response = await axios({
-            method: "POST",
-            url: "https://localhost:44306/api/v1/Employees",
-            data: this.newEmployee,
-          }).catch((e) => console.log(e));
-          console.log('res:' +response);
-          
-        } else if (this.addOrupdateChild == "Update") {
-          await axios
-            .put(
-              `https://localhost:44306/api/v1/Employees/${this.newEmployee.employeeID}`,
-              this.newEmployee
-            )
-            .then((res) => console.log(res))
-            .catch((e) => console.log(e));
-            alert('Sua thanh cong!!!')
-          location.reload();
-        }
+      //Chekc mã nhân viên không được bỏ trống
+      if (this.newEmployee.employeeCode == "") {
+        alert('Trường mã nhân viên không được bỏ trống');
+        return;
+      }
+      //Check tên nhân viên không được bỏ trống
+      if (this.newEmployee.fullName == "") {
+        alert('Trường tên nhân viên không được bỏ trống');
+        return;
+        // this.hasNull = true;
+        // document.getElementById("fullname").classList.add("isWarning");
+      }
+
+      //Check trạng thái làm việc không được bỏ trống
+      if (this.newEmployee.statusWork == "") {
+        alert('Trường trạng thái làm việc không được bỏ trống');
+        return;
+      }
+      //Check mật khẩu không được bỏ trống
+      // if (this.newEmployee.password == "") {
+      //   alert('Trường mật khẩu không được bỏ trống');
+      //   return;
+      //   // this.hasNull = true;
+      //   // document.getElementById("password").classList.add("isWarning");
+      // }
+      
+
+      // if (this.hasNull) {
+      //   alert("Các trường (*) không được bỏ trống");
+      //   return;
+      // }
+
+
+      //Thực hiện API thêm mới
+      if (this.addOrupdateChild == "Add") {
+        console.log(this.newEmployee.password);
+        await axios({
+          method: "POST",
+          url: "https://localhost:44306/api/v1/Employees",
+          data: this.newEmployee,
+        })
+          .then(() => {
+            alert("Thêm thành công");
+            location.reload();
+          })
+          .catch((e) => {
+            if (e.response.status == 400) {
+              alert("Gặp lỗi: " + e.response.data.userMsg);
+            }
+          });
+        //Thực hiện API Sửa nhân viên
+      } else if (this.addOrupdateChild == "Update") {
+        await axios
+          .put(
+            `https://localhost:44306/api/v1/Employees/${this.newEmployee.employeeID}`,
+            this.newEmployee
+          )
+          .then((res) => console.log(res))
+          .catch((e) => console.log(e));
+        alert("Sua thanh cong!!!");
+        location.reload();
       }
     },
-    focusInput() {
-      this.$refs.employeeCode.focus();
-    },
 
-    
-    addNewEmployee(){
+    addNewEmployee() {
       this.newEmployee = this.employee;
       console.log(this.newEmployee);
     },
@@ -395,27 +422,26 @@ export default {
       return moment(String(date)).format("YYYY-MM-DD");
     },
 
-    inputHandle(){
+    inputHandle() {
       this.validated = true;
-    }
+    },
   },
-  mounted(){
+  mounted() {
     this.$nextTick(() => {
       this.$refs.employeeCode.focus();
-    })
+    });
   },
 
   computed: {
     //Kiểm tra bắt buộc nhập
-    errorMessage(){
-      if(!this.validated){
-        return '';
+    errorMessage() {
+      if (!this.validated) {
+        return "";
       }
-      if (this.newEmployee.employeeCode == "" ) {
-        return  "ban chua nhap ma nv";
-      }
-      else return '';
-    }
+      if (this.newEmployee.employeeCode == "") {
+        return "ban chua nhap ma nv";
+      } else return "";
+    },
   },
 
   //Cập nhật khi có bất kỳ thay đổi nào
@@ -441,6 +467,7 @@ export default {
       ishideDelete: true,
       validated: false,
       ishideFocus: true,
+      hasNull: false,
       employee: {
         employeeCode: "",
         fullName: "",
@@ -472,7 +499,7 @@ export default {
 .isDisable {
   background-color: #0087be;
 }
-.errorMsg{
+.errorMsg {
   color: red;
 }
 </style>

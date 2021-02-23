@@ -86,8 +86,8 @@
 /*Location option */
 
 .header .location-option select {
-    padding: 0.65em;
-    border-radius: 5px;
+    padding: 0.55em;
+    border-radius: 2px;
     border: none;
     cursor: pointer;
     outline: none;
@@ -101,12 +101,12 @@
 
 .header .language-option {
     padding: 1em;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 .header .language-option select {
-    padding: 0.65em;
-    border-radius: 5px;
+    padding: 0.55em;
+    border-radius: 2px;
     border: none;
     cursor: pointer;
     outline: none;
