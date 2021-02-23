@@ -41,11 +41,11 @@
           <div class="m-btn-icon icon-view"></div>
           <div>Xem</div>
         </button>
-        <button @click="rowOnClick(employees[indexForAction])">
+        <button @click="rowOnClick(employees[indexForAction].employeeID)">
           <div class="m-btn-icon icon-update"></div>
           <div>Sửa</div>
         </button>
-        <button @click="removeOnClick(employees[indexForAction])">
+        <button @click="removeOnClick(employees[indexForAction].employeeID)">
           <div class="m-btn-icon icon-remove"></div>
           <div>Xóa</div>
         </button>
@@ -159,7 +159,7 @@
             :class="{ isHide: !ishideForSearch }"
             v-for="(employee, index) in employees"
             :key="index"
-            @dblclick="rowOnClick(employee)"
+            @dblclick="rowOnClick(employee.employeeID)"
           >
             <td>{{ employee.employeeCode }}</td>
             <td>{{ employee.fullName }}</td>
@@ -260,23 +260,32 @@ export default {
     },
 
     //Hàm chọn để mở popup delete thực thi xóa nhân viên
-    removeOnClick(employee) {
-      if (employee == null) {
+    async removeOnClick(employeeID) {
+      if (employeeID == null) {
         alert("Bạn chưa chọn đối tượng cần xóa");
       } else {
+        const response = await axios({
+          method: "GET",
+          url: `https://localhost:44306/api/v1/Employees/${employeeID}`
+        });
         this.ishideForDelete = false;
-        this.infoDelete = employee;
+        this.infoDelete = response.data;
       }
     },
 
     //Hàm chọn nhân viên để thực thi update
-    rowOnClick(employee) {
-      if (employee == null) {
+    async rowOnClick(employeeID) {
+      if (employeeID == null) {
         alert("Bạn chưa chọn đối tượng cần chỉnh sửa");
       } else {
+        const response = await axios({
+          method: "GET",
+          url: `https://localhost:44306/api/v1/Employees/${employeeID}`
+        });
         this.ishideForAdd = false;
         this.isDisableForUpdate = false;
-        this.infoUpdateOrAdd = employee;
+        this.infoUpdateOrAdd = response.data
+        console.log(this.infoUpdateOrAdd);
         this.addOrUpdateString = "Update";
       }
     },

@@ -21,7 +21,7 @@
         <br />
         <div class="dialog-body">
           <div class="group-button-detail" v-if="addOrupdateChild == 'Add'">
-            <button>
+            <button @click="addNewEmployee()">
               <div class="m-btn-icon icon-add"></div>
               <div>Thêm</div>
             </button>
@@ -45,7 +45,7 @@
               <div class="btnadd-icon"></div>
               <div>Giúp</div>
             </button>
-            <button>
+            <button @click="btnCancelOnClick()">
               <div class="btnadd-icon"></div>
               <div>Đóng</div>
             </button>
@@ -75,7 +75,7 @@
               <div class="btnadd-icon"></div>
               <div>Giúp</div>
             </button>
-            <button>
+            <button @click="btnCancelOnClick()">
               <div class="btnadd-icon"></div>
               <div>Đóng</div>
             </button>
@@ -98,14 +98,16 @@
                     <span class="warning-text"></span>
                     <input
                       :disabled="!isdisable"
-                      ref="nameInput"
+                      ref="employeeCode"
                       v-model="newEmployee.employeeCode"
                       class="form-input"
-                      :class="{ isWarning: isWarning }"
+                      :class="{ isWarning: errorMessage }"
                       type="text"
                       id="input-employeeCode"
+                      @input="inputHandle()"
+                      
                     />
-                    <span></span>
+                    <!-- <span class="errorMsg">{{errorMessage}}</span> -->
                   </td>
                   <td colspan="3">
                     <div class="noteforUser">
@@ -148,9 +150,11 @@
                     <input
                       v-model="newEmployee.fullName"
                       class="form-input"
-                      :class="{ isWarning: isWarning }"
+                      :class="{ isWarning: errorMessage }"
                       type="text"
+                      @input="inputHandle()"
                     />
+                    <!-- <span class="errorMsg">{{errorMessage}}</span> -->
                   </td>
                 </tr>
 
@@ -220,7 +224,7 @@
                   <td colspan="1">
                     <span class="warning-text"></span>
                     <input
-                      v-model="newEmployee.ruleCode"
+                     
                       :value="0"
                       type="checkbox"
                       :checked="0"
@@ -228,7 +232,7 @@
                   </td>
                   <td colspan="2">
                     <input
-                      v-model="newEmployee.ruleCode"
+
                       :value="1"
                       type="checkbox"
                       :checked="1"
@@ -296,12 +300,12 @@
                     thường và chữ số.
                   </td>
                 </tr>
-                <tr v-if="addOrupdateChild == 'Update'">
+                <!-- <tr v-if="addOrupdateChild == 'Update'">
                   <td></td>
                   <td colspan="2">
                     <input type="checkbox" name="" id="" /> Thay đổi mật khẩu
                   </td>
-                </tr>
+                </tr> -->
               </table>
             </div>
             <div class="info-detail-avatar">
@@ -339,20 +343,27 @@ export default {
 
     // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
-      if (this.validateInputNotNull.errorMsg != "") {
-        this.isWarning = true;
+      if (this.errorMessage) {
+        return ;
       } else {
-        this.isWarning = false;
+        // this.isWarning = false;
         if (this.addOrupdateChild == "Add") {
-          axios({
+          const response = await axios({
             method: "POST",
             url: "https://localhost:44306/api/v1/Employees",
             data: this.newEmployee,
           })
             .then((res) => console.log(res.status))
             .catch((e) => console.log(e));
-          console.log(this.newEmployee);
-          // location.reload();
+          console.log(response);
+          if(response.data == 1){
+            alert('Them moi thanh cong!!!')
+            location.reload();
+          }
+          else{
+            alert("res.userMsg")
+          }
+          
         } else if (this.addOrupdateChild == "Update") {
           await axios
             .put(
@@ -361,9 +372,15 @@ export default {
             )
             .then((res) => console.log(res.status))
             .catch((e) => console.log(e));
+            alert('Sua thanh cong!!!')
           location.reload();
         }
       }
+    },
+    
+    addNewEmployee(){
+      this.newEmployee = this.employee;
+      console.log(this.newEmployee);
     },
     //mở popup delete
     btnDeleteOnClick() {
@@ -384,18 +401,35 @@ export default {
     formatDateDefalut(date) {
       return moment(String(date)).format("YYYY-MM-DD");
     },
+
+    inputHandle(){
+      this.validated = true;
+    }
   },
+
+  // mounted: function(){
+  //   this.addNewEmployee();
+  // },
 
   computed: {
     //Kiểm tra bắt buộc nhập
-    validateInputNotNull() {
-      let errorMsg = "";
-      if (this.newEmployee.employeeCode == "") {
-        errorMsg = "ban chua nhap ma nv";
-        return errorMsg;
+    // validateInputNotNull() {
+    //   let errorMsg = "";
+    //   if (this.newEmployee.employeeCode.length < 0) {
+    //     errorMsg = "ban chua nhap ma nv";
+    //     return errorMsg;
+    //   }
+    //   return errorMsg;
+    // },
+    errorMessage(){
+      if(!this.validated){
+        return '';
       }
-      return errorMsg;
-    },
+      if (this.newEmployee.employeeCode == "" ) {
+        return  "ban chua nhap ma nv";
+      }
+      else return '';
+    }
   },
 
   //Cập nhật khi có bất kỳ thay đổi nào
@@ -417,6 +451,24 @@ export default {
       display: "none",
       isWarning: false,
       ishideDelete: true,
+      validated: false,
+      employee: {
+        employeeCode: "",
+        fullName: "",
+        email: "",
+        phoneNumber: "",
+        gender: parseInt(0),
+        identityCode: "",
+        identityPlace: "",
+        identityDate: null,
+        dateOfBirth: null,
+        ruleCode: parseInt(0),
+        statusWork: parseInt(1),
+        password: "",
+        confirmPassword: "",
+        createdDate: null,
+        modifiedDate: null,
+      },
     };
   },
 };
@@ -425,104 +477,13 @@ export default {
 .isHide {
   display: none;
 }
-.m-dialog {
-  z-index: 999;
-}
-
-.dialog-header {
-  position: relative;
-  height: 40px;
-  line-height: 60px;
-  padding-left: 5px;
-  padding-bottom: 13px;
-  display: flex;
-  font-size: 20px;
-  background-color: #0087be;
-}
-.dialog-header-title {
-  color: #fff;
-  left: 0;
-}
-
-.dialog-header-close {
-  position: absolute;
-  right: 16px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  top: 10px;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  font-size: 24px;
-  line-height: 24px;
-  color: #0087be;
-}
-.dialog-modal {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: black;
-  opacity: 0.4;
-}
-
-.dialog-content {
-  position: fixed;
-  border-radius: 5px;
-  border: 5px solid #0087be;
-  border-top: none;
-  width: 950px;
-  background-color: #fff;
-  left: calc(50% - 475px);
-  top: calc(50% - 310px);
-}
-.dialog-body {
-  padding: 0 16px 16px 16px;
-}
-.dialog-footer {
-  display: flex;
-  width: 100%;
-  height: 60px;
-  background-color: #e9ebee;
-  border-radius: 0 0 5px 5px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 12px 24px;
-  box-sizing: border-box;
-}
-.el-avatar-employee {
-  padding-top: 16px;
-  padding-right: 16px;
-}
-.el-avatar-note {
-  font-size: 12px;
-}
-.el-avatar-employee .el-avatar {
-  border: 1px solid #ccc;
-  width: 160px;
-  height: 160px;
-  margin: 0 auto;
-  border-radius: 50%;
-  cursor: pointer;
-  background-image: url(/content/img/default-avatar.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-.currency-for-input {
-  position: absolute;
-  right: 40px;
-  line-height: 40px;
-  font-style: italic;
-}
-
 .isWarning {
   outline: 1px solid red;
 }
 .isDisable {
   background-color: #0087be;
+}
+.errorMsg{
+  color: red;
 }
 </style>
