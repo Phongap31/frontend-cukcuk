@@ -43,6 +43,7 @@
     right: 0;
     background-color: black;
     opacity: 0.4;
+    z-index: 999;
 }
 
 .dialog-content {
@@ -54,6 +55,7 @@
     background-color: #fff;
     left: calc(50% - 475px);
     top: calc(50% - 310px);
+    z-index: 9999;
 }
 
 .dialog-body {
@@ -245,22 +247,5 @@
     align-items: center;
     text-align: center;
     font-size: 12px;
-    margin-left: 10px;
+    margin-left: 0;
 }
-
-
-/* .dialog-body {
-    height: 130px;
-    font-size: 20px;
-    padding-left: 15px;
-  }
-  .dialog-body-name {
-    padding: 20px 0;
-  }
-  .dialog-body-query {
-    font-style: italic;
-    font-weight: 600;
-    padding-top: 20px; */
-
-
-/* } */

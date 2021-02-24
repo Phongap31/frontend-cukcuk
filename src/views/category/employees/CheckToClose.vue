@@ -8,9 +8,12 @@
       <div class="dialog-modal"></div>
       <div class="dialog-content">
         <div class="dialog-header">
-          <div class="dialog-header-title">Xóa nhân viên</div>
+          <div class="dialog-header-title"><i style=" color: yellow" class="fas fa-exclamation-triangle"></i> Xóa nhân viên</div>
         </div>
         <div class="dialog-body">
+          <div class="dialog-body-name">
+            Mã nhân viên: {{ infoDeleteChild.employeeCode }}
+          </div>
           <div class="dialog-body-name">
             Tên nhân viên: {{ infoDeleteChild.fullName }}
           </div>
@@ -84,7 +87,7 @@ export default {
   padding-left: 15px;
 }
 .dialog-body-name {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 .dialog-body-query {
   font-style: italic;
@@ -94,7 +97,7 @@ export default {
 .dialog-footer button {
   padding: 5px 20px;
   cursor: pointer;
-  margin: 0 5px;
+  margin: 0 5px -30px 7px;
   border: none;
   outline: #0087be solid 1px;
 }

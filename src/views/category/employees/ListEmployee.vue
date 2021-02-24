@@ -164,7 +164,7 @@
             <td>{{ employee.employeeCode }}</td>
             <td>{{ employee.fullName }}</td>
             <td>{{ employee.phoneNumber }}</td>
-            <td>
+            <td class="date-center">
               {{
                 employee.dateOfBirth == null
                   ? ""
@@ -173,7 +173,7 @@
             </td>
             <td>
               {{
-                employee.gender == 0 ? "Nữ" : employee.gender == 1 ? "Nam" : ""
+                employee.gender == 0 ? "Nữ" : employee.gender == 1 ? "Nam" : "Khác"
               }}
             </td>
             <td>
@@ -227,21 +227,13 @@ export default {
       this.isDisableForUpdate = true;
       this.infoUpdateOrAdd = this.employee;
       this.addOrUpdateString = "Add";
-      // this.focusInput();
 
       //Focus mặc định vào ô nhập dữ liệu Mã nhân viên
       this.$nextTick(() => {
         this.$refs.details.$refs.employeeCode.focus();
-        this.$refs.details.$refs.employeeCode.value = "NV00003";
+        // this.$refs.details.$refs.employeeCode.value = "NV00003";
       })
     },
-
-    // //
-    // focusInput(){
-    //   setTimeout(() => {
-    //     this.$refs.details.$refs.employeeCode.focus();
-    //   },0);
-    // },
 
     //Hàm đóng form detail
     changeIsHideToClose(value) {
@@ -264,9 +256,17 @@ export default {
       return moment(String(date)).format("DD/MM/YYYY");
     },
 
+    //hàm thực hiện phím tắt (Crtl + q)
+    keyboardFormDetail(event){
+      console.log(event);
+      if(event.which === 79 && event.ctrlKey == true){
+        this.btnAddOnClick();
+      }
+    },
+
     //Hàm chọn để mở popup delete thực thi xóa nhân viên
     async removeOnClick(employeeID) {
-      if (employeeID == null) {
+      if (this.isActiveRow == false) {
         alert("Bạn chưa chọn đối tượng cần xóa");
       } else {
         const response = await axios({
@@ -290,7 +290,6 @@ export default {
         this.ishideForAdd = false;
         this.isDisableForUpdate = false;
         this.infoUpdateOrAdd = response.data
-        console.log(this.infoUpdateOrAdd);
         this.addOrUpdateString = "Update";
       }
     },
@@ -335,7 +334,7 @@ export default {
         identityDate: null,
         dateOfBirth: null,
         ruleCode: parseInt(0),
-        statusWork: parseInt(1),
+        statusWork: parseInt(-1),
         password: "",
         confirmPassword: "",
         createdDate: null,
@@ -353,22 +352,19 @@ export default {
       employeeSearch: Object,
     };
   },
+  //Hàm thực hiện load data
   async created() {
     await axios.get(
       "https://localhost:44306/api/v1/Employees"
     ).then(res => {
-      console.log(res.status);
       this.employees = res.data;
     })
     .catch((e) => {
       if (e.response.status == 400){
         alert("Gặp lỗi 400" + e.response.data.devMsg);
       }
-      // console.log(response.status);
     })
-
-    // this.employees = response.data;
-    // this.employees.dateOfbirth = this.employees.dateOfbirth.split("T")[0];
+    window.addEventListener('keyup', this.keyboardFormDetail)
   },
 };
 </script>

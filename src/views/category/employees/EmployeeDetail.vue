@@ -14,6 +14,7 @@
           </div>
         </div>
         <div class="dialog-body">
+          <!-- Nếu thực thi thêm mới -->
           <div class="group-button-detail" v-if="addOrupdateChild == 'Add'">
             <button @click="addNewEmployee()">
               <div class="m-btn-icon icon-add"></div>
@@ -45,6 +46,7 @@
               <div>Đóng</div>
             </button>
           </div>
+          <!-- Nếu thực thi sửa -->
           <div class="group-button-detail" v-if="addOrupdateChild == 'Update'">
             <button>
               <div class="m-btn-icon icon-add"></div>
@@ -100,7 +102,6 @@
                       class="form-input"
                       :class="{ isWarning: errorMessage }"
                       type="text"
-                      @input="inputHandle()"
                       id="employeeCode"
                     />
                     <!-- <span class="errorMsg">{{errorMessage}}</span> -->
@@ -224,12 +225,22 @@
                   <td>Phân quyền <span class="input-require">(*)</span></td>
                   <td colspan="1">
                     <span class="warning-text"></span>
-                    <input class="checkbox-detail" :value="0" type="checkbox" :checked="0" />Vai trò
-                    quản trị hệ thống
+                    <input
+                      class="checkbox-detail"
+                      :value="0"
+                      type="checkbox"
+                      :checked="0"
+                    /> 
+                    <span class="text-checkbox">Vai trò quản trị hệ thống</span>
                   </td>
                   <td colspan="2">
-                    <input class="checkbox-detail"  :value="1" type="checkbox" :checked="1" />Vai trò
-                    quản lý chuỗi
+                    <input
+                      class="checkbox-detail"
+                      :value="1"
+                      type="checkbox"
+                      :checked="1"
+                    />
+                    <span class="text-checkbox">Vai trò quản lý chuỗi</span>
                   </td>
                 </tr>
 
@@ -247,13 +258,19 @@
                       name=""
                       id="statusWork"
                     >
+                    <option value="-1"></option>
                       <option value="0">Chính thức</option>
                       <option value="1">Thử việc</option>
                     </select>
                   </td>
                   <td v-if="addOrupdateChild == 'Add'" colspan="2">
-                    <input class="checkbox-detail"  type="checkbox" name="" id="" />Cho phép làm việc với
-                    phần mềm CukCuk
+                    <input
+                      class="checkbox-detail"
+                      type="checkbox"
+                      name=""
+                      id=""
+                    />
+                    <span class="text-checkbox">Cho phép làm việc với phần mềm CukCuk</span> 
                   </td>
                 </tr>
 
@@ -264,6 +281,7 @@
                   </td>
                   <td>
                     <input
+                    v-model="newEmployee.password"
                       style="width: calc(100% - 2px)"
                       class="form-input"
                       type="password"
@@ -312,6 +330,7 @@
         <div class="dialog-footer"></div>
       </div>
     </div>
+    <!-- <notifications group="foo" /> -->
   </div>
 </template>
 <script>
@@ -323,53 +342,36 @@ export default {
     Delete,
   },
   props: ["ishide", "isdisable", "infoUpdateOrAddChild", "addOrupdateChild"],
-  // mounted: function () {
-  //   this.focusInput();
-  // },
-  // watch: {
-  //   ishideFocus: function(){
-  //     this.$refs.employeeCode.focus();
-  //   }
-  // },
   methods: {
     // hàm thực hiện thêm mới và sửa thông tin nhân viên
     async btnAddOnClick() {
       //Chekc mã nhân viên không được bỏ trống
       if (this.newEmployee.employeeCode == "") {
-        alert('Trường mã nhân viên không được bỏ trống');
+        alert("Trường mã nhân viên không được bỏ trống");
         return;
       }
       //Check tên nhân viên không được bỏ trống
       if (this.newEmployee.fullName == "") {
-        alert('Trường tên nhân viên không được bỏ trống');
+        alert("Trường tên nhân viên không được bỏ trống");
         return;
         // this.hasNull = true;
         // document.getElementById("fullname").classList.add("isWarning");
       }
 
       //Check trạng thái làm việc không được bỏ trống
-      if (this.newEmployee.statusWork == "") {
+      if (this.newEmployee.statusWork == "-1") {
         alert('Trường trạng thái làm việc không được bỏ trống');
         return;
       }
       //Check mật khẩu không được bỏ trống
-      // if (this.newEmployee.password == "") {
-      //   alert('Trường mật khẩu không được bỏ trống');
-      //   return;
-      //   // this.hasNull = true;
-      //   // document.getElementById("password").classList.add("isWarning");
-      // }
-      
-
-      // if (this.hasNull) {
-      //   alert("Các trường (*) không được bỏ trống");
-      //   return;
-      // }
-
+      if (this.newEmployee.password == "") {
+        alert('Trường mật khẩu không được bỏ trống');
+        return;
+      }
 
       //Thực hiện API thêm mới
       if (this.addOrupdateChild == "Add") {
-        console.log(this.newEmployee.password);
+        console.log(this.newEmployee);
         await axios({
           method: "POST",
           url: "https://localhost:44306/api/v1/Employees",
@@ -382,6 +384,11 @@ export default {
           .catch((e) => {
             if (e.response.status == 400) {
               alert("Gặp lỗi: " + e.response.data.userMsg);
+            //   this.$notify({
+            //   group: 'foo',
+            //   title: 'Important message',
+            //   text: 'Hello user! This is a notification!'
+            // });
             }
           });
         //Thực hiện API Sửa nhân viên
@@ -398,10 +405,6 @@ export default {
       }
     },
 
-    addNewEmployee() {
-      this.newEmployee = this.employee;
-      console.log(this.newEmployee);
-    },
     //mở popup delete
     btnDeleteOnClick() {
       this.ishideDelete = false;
@@ -422,14 +425,14 @@ export default {
       return moment(String(date)).format("YYYY-MM-DD");
     },
 
-    inputHandle() {
-      this.validated = true;
-    },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$refs.employeeCode.focus();
-    });
+    //hàm thực hiện phím tắt (Crtl + q)
+    keyboardFormDetail(event){
+      console.log(event);
+      if(event.which === 81 && event.ctrlKey == true){
+        this.btnAddOnClick();
+        event.preventDefault()
+      }
+    }
   },
 
   computed: {
@@ -444,11 +447,33 @@ export default {
     },
   },
 
+  created(){
+    document.onkeydown = function(e){
+      e = e || window.event;
+      if(e.ctrlKey){
+        var c = e.which || e.keyCode;
+        switch(c){
+          //block Ctrl+S
+          case 83: e.preventDefault();
+          e.stopPropagation();
+          break;
+          case 40: e.preventDefault();
+          e.stopPropagation();
+          break;
+        }
+      }
+      if(e.altKey){
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+    window.addEventListener('keyup', this.keyboardFormDetail)
+  },
+
   //Cập nhật khi có bất kỳ thay đổi nào
   updated() {
     this.newEmployee = this.infoUpdateOrAddChild;
     this.ishideFocus = this.ishide;
-    console.log(this.ishideFocus);
     this.newEmployee.dateOfBirth = this.formatDateDefalut(
       this.newEmployee.dateOfBirth
     );
