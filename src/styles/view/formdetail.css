@@ -191,7 +191,7 @@
 
 .form-input {
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(31, 30, 30);
     padding: 6px 0;
     background-color: #f5f5f5;
 }
@@ -211,7 +211,7 @@
 
 .form-input-date {
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid #000;
     padding: 6px 0;
     background-color: #f5f5f5;
 }

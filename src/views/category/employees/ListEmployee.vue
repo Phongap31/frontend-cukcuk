@@ -33,7 +33,7 @@
           <div class="m-btn-icon icon-add"></div>
           <div>Thêm</div>
         </button>
-        <button>
+        <button @click="function_A()">
           <div class="m-btn-icon icon-duplicate"></div>
           <div>Nhân bản</div>
         </button>
@@ -209,6 +209,7 @@
 </template>
 
 <script>
+import Mylib from '../../../javascript/commonFuction';
 import EmployeeDetail from "./EmployeeDetail";
 import axios from "axios";
 import moment from "moment";
@@ -222,6 +223,15 @@ export default {
 
   methods: {
     //Hàm mở form detail để thực hiện thêm mới
+    function_A() {
+      Mylib.myfuncA(); // <---read data
+    },
+    function_B() {
+      Mylib.myfuncB(this); // <---write data
+    },
+    function_C() {
+      Mylib.myfuncC(this); // <---write data
+    },
     btnAddOnClick() {
       this.ishideForAdd = false;
       this.isDisableForUpdate = true;
